@@ -1,7 +1,7 @@
 {
-  "name": "simple-redux",
+  "name": "redux-examples",
   "version": "1.0.0",
-  "description": "A simple Redux implementation",
+  "description": "Redux examples",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js"
@@ -14,5 +14,7 @@
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.5.0"
+  }
 }
