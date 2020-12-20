@@ -1,14 +1,7 @@
 // We have 3 actions for the Bug-tracker
 // We can Add, Remove and Mark a bug as resolved.
 
-import { createAction, createReducer } from '@reduxjs/toolkit';
-
-// Action Creators
-export const bugAdded = createAction("bugAdded")
-
-export const bugRemoved = createAction("bugRemoved")
-
-export const bugResolved = createAction("bugResolved")
+import { createSlice } from '@reduxjs/toolkit';
 
 // Reducer
 let lastId = 0;
@@ -19,13 +12,23 @@ const newBug = description => ({
   resolved : false,
 })
 
-export default createReducer([], {
-  [bugAdded.type]: (bugs, action) => { bugs.push(newBug(action.payload.description)) },
+const slice = createSlice({
+  name: 'bugs',
+  initialState: [],
+  reducers: {
+    bugAdded: (bugs, action) => { bugs.push(newBug(action.payload.description)) },
 
-  [bugResolved.type]: (bugs, action) => { 
-    const bugId = bugs.findIndex(bug => bug.id == action.payload.id);
-    bugs[bugId].resolved = true;
-   }
+    bugRemoved: (bugs, action) => {
+      const bugId = bugs.findIndex(bug => bug.id == action.payload.id);
+      bugs.splice(bugId, 1);
+    },
 
-  // bugRemoved: (state, action) => {  }
+    bugResolved: (bugs, action) => { 
+      const bugId = bugs.findIndex(bug => bug.id == action.payload.id);
+      bugs[bugId].resolved = true;
+    }
+  }
 })
+
+export const { bugAdded, bugRemoved, bugResolved } = slice.actions;
+export default slice.reducer;

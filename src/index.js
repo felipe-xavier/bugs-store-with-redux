@@ -18,4 +18,4 @@ unsubscribe2();
 
 store.dispatch(bugResolved({id: 1}));
 
-// store.dispatch(bugRemoved({id: 2}));
+store.dispatch(bugRemoved({id: 2}));
