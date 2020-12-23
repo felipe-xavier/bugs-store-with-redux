@@ -2,6 +2,7 @@
 // We can Add, Remove and Mark a bug as resolved.
 
 import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 
 // Reducer
 let lastId = 0;
@@ -33,6 +34,8 @@ const slice = createSlice({
 export const { bugAdded, bugRemoved, bugResolved } = slice.actions;
 export default slice.reducer;
 
-export const getUnresolvedBugs = state => {
-  return state.entities.bugs.filter(bug => !bug.resolved);
-}
+export const getUnresolvedBugs = createSelector(
+  state => state.entities.bugs,
+  state => state.entities.projects,
+  (bugs, projects) => bugs.filter(bug => !bug.resolved)
+)
