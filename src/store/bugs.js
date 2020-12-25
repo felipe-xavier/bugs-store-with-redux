@@ -1,6 +1,3 @@
-// We have 3 actions for the Bug-tracker
-// We can Add, Remove and Mark a bug as resolved.
-
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
