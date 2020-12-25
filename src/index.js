@@ -1,9 +1,9 @@
-import configureStore from "./myStore/configureStore";
-import { bugAdded, bugRemoved, bugResolved } from "./myStore/bugs";
-import { getUnresolvedBugs } from './myStore/bugs';
-import { getAssigneeBugs } from './myStore/bugs';
-import { projectAdded } from "./myStore/projects";
-import { userAdded } from './myStore/users';
+import configureStore from "./store/configureStore";
+import { bugAdded, bugRemoved, bugResolved } from "./store/bugs";
+import { getUnresolvedBugs } from './store/bugs';
+import { getAssigneeBugs } from './store/bugs';
+import { projectAdded } from "./store/projects";
+import { userAdded } from './store/users';
 
 const store = configureStore()
 
