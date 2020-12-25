@@ -1,4 +1,4 @@
-# Simple implementation of Redux in JS.
+# Example of a store using Redux in JS.
 
 This repository has a single file called src/myRedux/myRedux.js that exports the famous createStore function.
 
@@ -10,6 +10,7 @@ The example used to test is a Bug Tracker with a store like this:
 [{
   id: integer,
   description : string,
-  resolved : boolean
+  resolved : boolean,
+  assignee: integer
 }]
 ```
