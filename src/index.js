@@ -7,21 +7,30 @@ import { userAdded } from './store/users';
 
 const store = configureStore()
 
-store.dispatch(projectAdded({ name: 'First Project' }))
+store.dispatch({
+  type: 'error',
+  payload: { message: "An error occured"}
+})
 
-store.dispatch(userAdded({ name: 'Felipe' }))
-store.dispatch(userAdded({ name: 'Naiara' }))
+store.dispatch({
+  type: 'x',
+  payload: { message: "An error occured"}
+})
+// store.dispatch(projectAdded({ name: 'First Project' }))
 
-store.dispatch(bugAdded({ description: "Bug-1", assignee: 0 }));
-store.dispatch(bugAdded({ description: "Bug-2", assignee: 1 }));
-store.dispatch(bugAdded({ description: "Bug-3" }));
+// store.dispatch(userAdded({ name: 'Felipe' }))
+// store.dispatch(userAdded({ name: 'Naiara' }))
 
-store.dispatch(bugResolved({ id: 1 }));
-store.dispatch(bugRemoved({ id: 3 }));
+// store.dispatch(bugAdded({ description: "Bug-1", assignee: 0 }));
+// store.dispatch(bugAdded({ description: "Bug-2", assignee: 1 }));
+// store.dispatch(bugAdded({ description: "Bug-3" }));
 
-console.log(store.getState())
+// store.dispatch(bugResolved({ id: 1 }));
+// store.dispatch(bugRemoved({ id: 3 }));
 
-console.log(getUnresolvedBugs(store.getState()))
+// console.log(store.getState())
 
-const bugs = getAssigneeBugs(1)(store.getState())
-console.log(bugs);
+// console.log(getUnresolvedBugs(store.getState()))
+
+// const bugs = getAssigneeBugs(1)(store.getState())
+// console.log(bugs);
