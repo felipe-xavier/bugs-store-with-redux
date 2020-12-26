@@ -20,9 +20,23 @@ const slice = createSlice({
     lastFatch: null,
   },
   reducers: {
-    bugsReceived: (bugs, action) => { bugs.list = action.payload },
+    bugsRequested: (bugs, action) => {
+      bugs.loading = true;
+    },
 
-    bugAdded: (bugs, action) => { bugs.list.push(newBug(action.payload.description, action.payload.userId)) },
+    bugsRequestFailed: (bugs, action) => {
+      bugs.loading = false;
+    },
+
+    bugsReceived: (bugs, action) => { 
+      bugs.list = action.payload;
+      bugs.loading = false;
+    },
+
+    bugAdded: (bugs, action) => {
+      const { description, userId } = action.payload;
+      bugs.list.push(newBug(description, userId));
+    },
 
     bugRemoved: (bugs, action) => {
       const bugId = bugs.list.findIndex(bug => bug.id == action.payload.id);
@@ -49,14 +63,23 @@ const getAssigneeBugs = userId => createSelector(
   bugs => bugs.filter(bug => bug.userId === userId)
 )
 
-export { getAssigneeBugs };
-export { getUnresolvedBugs };
-export const { bugAdded, bugRemoved, bugResolved, bugsReceived } = slice.actions;
+export { getAssigneeBugs, getUnresolvedBugs };
+export const { 
+  bugAdded, 
+  bugRemoved, 
+  bugResolved, 
+  bugsReceived,
+  bugsRequested,
+  bugsRequestFailed,
+ } = slice.actions;
+
 export default slice.reducer;
 
-const url = "http://localhost/9001";
+const url = "/bugs";
 
 export const loadBugs = () => apiCallBegun({
     url,
+    onStart: bugsRequested.type,
     onSuccess: bugsReceived.type,
+    onFail: bugsRequestFailed.type,
 });
