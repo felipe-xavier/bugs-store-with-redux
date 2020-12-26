@@ -1,5 +1,5 @@
 import configureStore from "./store/configureStore";
-import {apiCallBegun} from "./store/api";
+import { loadBugs } from "./store/bugs";
 // import { bugAdded, bugRemoved, bugResolved } from "./store/bugs";
 // import { getUnresolvedBugs, getAssigneeBugs } from './store/bugs';
 // import { projectAdded } from "./store/projects";
@@ -7,10 +7,7 @@ import {apiCallBegun} from "./store/api";
 
 const store = configureStore()
 
-store.dispatch(apiCallBegun({
-  url: "/bugs",
-  onSuccess: "bugs/bugsReceived"
-}))
+store.dispatch(loadBugs)
 
 
 // store.dispatch(projectAdded({ name: 'First Project' }))
