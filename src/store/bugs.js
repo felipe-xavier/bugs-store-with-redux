@@ -13,18 +13,22 @@ const newBug = (description, assignee) => ({
 
 const slice = createSlice({
   name: 'bugs',
-  initialState: [],
+  initialState: {
+    list: [],
+    loading: true,
+    lastFatch: null,
+  },
   reducers: {
-    bugAdded: (bugs, action) => { bugs.push(newBug(action.payload.description, action.payload.assignee)) },
+    bugAdded: (bugs, action) => { bugs.list.push(newBug(action.payload.description, action.payload.assignee)) },
 
     bugRemoved: (bugs, action) => {
-      const bugId = bugs.findIndex(bug => bug.id == action.payload.id);
-      bugs.splice(bugId, 1);
+      const bugId = bugs.list.findIndex(bug => bug.id == action.payload.id);
+      bugs.list.splice(bugId, 1);
     },
 
     bugResolved: (bugs, action) => { 
-      const bugId = bugs.findIndex(bug => bug.id == action.payload.id);
-      bugs[bugId].resolved = true;
+      const bugId = bugs.list.findIndex(bug => bug.id == action.payload.id);
+      bugs.list[bugId].resolved = true;
     }
   }
 })
