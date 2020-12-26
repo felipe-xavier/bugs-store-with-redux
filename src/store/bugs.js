@@ -50,8 +50,6 @@ const slice = createSlice({
   }
 })
 
-
-
 const getUnresolvedBugs = createSelector(
   state => state.entities.bugs,
   state => state.entities.projects,
