@@ -1,5 +1,5 @@
 import configureStore from "./store/configureStore";
-import { loadBugs } from "./store/bugs";
+import { loadBugs, addBug } from "./store/bugs";
 // import { bugAdded, bugRemoved, bugResolved } from "./store/bugs";
 // import { getUnresolvedBugs, getAssigneeBugs } from './store/bugs';
 // import { projectAdded } from "./store/projects";
@@ -7,9 +7,12 @@ import { loadBugs } from "./store/bugs";
 
 const store = configureStore();
 
+store.dispatch(addBug({ description: "my bug" }))
+
 store.dispatch(loadBugs());
 
-setTimeout(() => store.dispatch(loadBugs()), 2000);
+
+// setTimeout(() => store.dispatch(loadBugs()), 2000);
 
 
 // store.dispatch(projectAdded({ name: 'First Project' }))
