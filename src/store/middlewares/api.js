@@ -8,7 +8,7 @@ const api = ({ dispatch }) => next => async action => {
 
 	console.log(action.payload);
 
-	const { url, onStart, onSuccess, onFail } = action.payload;
+	const { url, method, data, onStart, onSuccess, onFail } = action.payload;
 
 	if (onStart) dispatch({ type: onStart });
 
@@ -18,8 +18,9 @@ const api = ({ dispatch }) => next => async action => {
 		
 		const response = await axios.request({
 			baseURL: "http://localhost:9001/api",
-			url,
-			onSuccess,
+      url,
+      method,
+      data
 		});
 
 		dispatch(actions.apiCallSucceeded(response.data));
