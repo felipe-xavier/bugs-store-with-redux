@@ -1,21 +1,18 @@
 import configureStore from "./store/configureStore";
-import { bugAdded, bugRemoved, bugResolved } from "./store/bugs";
-import { getUnresolvedBugs } from './store/bugs';
-import { getAssigneeBugs } from './store/bugs';
-import { projectAdded } from "./store/projects";
-import { userAdded } from './store/users';
+import {apiCallBegun} from "./store/api";
+// import { bugAdded, bugRemoved, bugResolved } from "./store/bugs";
+// import { getUnresolvedBugs, getAssigneeBugs } from './store/bugs';
+// import { projectAdded } from "./store/projects";
+// import { userAdded } from './store/users';
 
 const store = configureStore()
 
-store.dispatch({
-  type: 'error',
-  payload: { message: "An error occured"}
-})
+store.dispatch(apiCallBegun({
+  url: "/bugs",
+  onSuccess: "bugs/bugsReceived"
+}))
 
-store.dispatch({
-  type: 'x',
-  payload: { message: "An error occured"}
-})
+
 // store.dispatch(projectAdded({ name: 'First Project' }))
 
 // store.dispatch(userAdded({ name: 'Felipe' }))
