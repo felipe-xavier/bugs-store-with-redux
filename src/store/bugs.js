@@ -3,16 +3,6 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { apiCallBegun } from "./api";
 
-// Reducer
-let lastId = 0;
-
-const newBug = (description, userId) => ({
-  id: ++lastId,
-  description,
-  resolved : false,
-  userId,
-})
-
 const slice = createSlice({
   name: 'bugs',
   initialState: {
@@ -36,8 +26,7 @@ const slice = createSlice({
     },
 
     bugAdded: (bugs, action) => {
-      const { description, userId } = action.payload;
-      bugs.list.push(newBug(description, userId));
+      bugs.list.push(action.payload);
     },
 
     bugRemoved: (bugs, action) => {
@@ -84,13 +73,23 @@ export const loadBugs = () => (dispatch, getState) => {
 
   const diffInMinutes = moment().diff(moment(lastFetch), 'minutes');
 
+  console.log(diffInMinutes);
+
   if (diffInMinutes < 10) return;
 
   dispatch(
     apiCallBegun({
       url,
+      method: "get",
       onStart: bugsRequested.type,
       onSuccess: bugsReceived.type,
       onFail: bugsRequestFailed.type,
   }))
 }
+
+export const addBug = bug => apiCallBegun({
+  url,
+  data: bug,
+  method: "post",
+  onSuccess: bugAdded.type,
+});
