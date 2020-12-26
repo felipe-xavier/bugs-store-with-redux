@@ -4,11 +4,11 @@ import { createSelector } from 'reselect';
 // Reducer
 let lastId = 0;
 
-const newBug = (description, assignee) => ({
+const newBug = (description, userId) => ({
   id: ++lastId,
   description,
   resolved : false,
-  assignee,
+  userId,
 })
 
 const slice = createSlice({
@@ -19,7 +19,7 @@ const slice = createSlice({
     lastFatch: null,
   },
   reducers: {
-    bugAdded: (bugs, action) => { bugs.list.push(newBug(action.payload.description, action.payload.assignee)) },
+    bugAdded: (bugs, action) => { bugs.list.push(newBug(action.payload.description, action.payload.userId)) },
 
     bugRemoved: (bugs, action) => {
       const bugId = bugs.list.findIndex(bug => bug.id == action.payload.id);
@@ -41,7 +41,7 @@ const getUnresolvedBugs = createSelector(
 
 const getAssigneeBugs = userId => createSelector(
   state => state.entities.bugs,
-  bugs => bugs.filter(bug => bug.assignee === userId)
+  bugs => bugs.filter(bug => bug.userId === userId)
 )
 
 export { getAssigneeBugs };
