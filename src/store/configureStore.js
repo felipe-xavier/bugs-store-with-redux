@@ -1,6 +1,7 @@
 import reducer from "./reducer";
 import logger from "./middlewares/logger";
 import toast from './middlewares/toast';
+import api from "./middlewares/api";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
 export default function() {
@@ -9,7 +10,8 @@ export default function() {
     middleware: [
       ...getDefaultMiddleware(),
       logger({destination: "console"}),
-      toast
+      toast,
+      api
     ]
   });
 };
