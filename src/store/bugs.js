@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
 import { createSelector } from 'reselect';
-import { apiCallBegun } from "./api";
+import { apiCallBegan } from "./api";
 
 const slice = createSlice({
   name: 'bugs',
@@ -31,16 +31,22 @@ const slice = createSlice({
 
     bugRemoved: (bugs, action) => {
       const bugId = bugs.list.findIndex(bug => bug.id == action.payload.id);
-      bugs.list.splice(bugId, 1);
+      if (bugId >= 0) bugs.list.splice(bugId, 1);
     },
 
     bugResolved: (bugs, action) => { 
       const bugId = bugs.list.findIndex(bug => bug.id == action.payload.id);
-      bugs.list[bugId].resolved = true;
+      if (bugId >= 0) bugs.list[bugId].resolved = true;
+    },
+
+    bugAssignedToUser: (bugs, action) => { 
+      const bugId = bugs.list.findIndex(bug => bug.id == action.payload.id);
+      if (bugId >= 0) bugs.list[bugId].userId = action.payload.userId;
     }
   }
 })
 
+// Computed State
 const getUnresolvedBugs = createSelector(
   state => state.entities.bugs,
   state => state.entities.projects,
@@ -53,19 +59,23 @@ const getAssigneeBugs = userId => createSelector(
 )
 
 export { getAssigneeBugs, getUnresolvedBugs };
-export const { 
+
+// Event Actions. Store Side
+const { 
   bugAdded, 
   bugRemoved, 
   bugResolved, 
   bugsReceived,
   bugsRequested,
   bugsRequestFailed,
+  bugAssignedToUser,
  } = slice.actions;
 
 export default slice.reducer;
 
 const url = "/bugs";
 
+// Commands. Server side with Event calls to the store.
 export const loadBugs = () => (dispatch, getState) => {
   const { lastFetch } = getState().entities.bugs;
 
@@ -78,7 +88,7 @@ export const loadBugs = () => (dispatch, getState) => {
   if (diffInMinutes < 10) return;
 
   dispatch(
-    apiCallBegun({
+    apiCallBegan({
       url,
       method: "get",
       onStart: bugsRequested.type,
@@ -87,9 +97,23 @@ export const loadBugs = () => (dispatch, getState) => {
   }))
 }
 
-export const addBug = bug => apiCallBegun({
+export const addBug = bug => apiCallBegan({
   url,
   data: bug,
   method: "post",
   onSuccess: bugAdded.type,
 });
+
+export const resolveBug = bugId => apiCallBegan({
+  url: url + '/' + bugId,
+  data: {resolved: true},
+  method: "patch",
+  onSuccess: bugResolved.type,
+});
+
+export const assignBugToUser = (bugId, userId) => apiCallBegan({
+  url: url + '/' + bugId,
+  data: {userId: userId},
+  method: "patch",
+  onSuccess: bugAssignedToUser.type,
+})
