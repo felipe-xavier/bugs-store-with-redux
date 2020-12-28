@@ -78,15 +78,11 @@ const url = "/bugs";
 export const loadBugs = () => (dispatch, getState) => {
   const { lastFetch } = getState().entities.bugs;
 
-  console.log(lastFetch);
-
   const diffInMinutes = moment().diff(moment(lastFetch), 'minutes');
-
-  console.log(diffInMinutes);
 
   if (diffInMinutes < 10) return;
 
-  dispatch(
+  return dispatch(
     apiCallBegan({
       url,
       method: "get",
@@ -94,7 +90,7 @@ export const loadBugs = () => (dispatch, getState) => {
       onSuccess: bugsReceived.type,
       onFail: bugsRequestFailed.type,
   }))
-}
+};
 
 export const addBug = bug => apiCallBegan({
   url,
