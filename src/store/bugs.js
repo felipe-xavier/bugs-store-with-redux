@@ -49,13 +49,12 @@ const slice = createSlice({
 // Computed State
 const getUnresolvedBugs = createSelector(
   state => state.entities.bugs,
-  state => state.entities.projects,
-  bugs => bugs.filter(bug => !bug.resolved)
+  bugs => bugs.list.filter(bug => !bug.resolved)
 )
 
 const getAssigneeBugs = userId => createSelector(
   state => state.entities.bugs,
-  bugs => bugs.filter(bug => bug.userId === userId)
+  bugs => bugs.list.filter(bug => bug.userId === userId)
 )
 
 export { getAssigneeBugs, getUnresolvedBugs };
@@ -75,7 +74,7 @@ export default slice.reducer;
 
 const url = "/bugs";
 
-// Commands. Server side with Event calls to the store.
+// Command Actions. Server side with Event calls to the store.
 export const loadBugs = () => (dispatch, getState) => {
   const { lastFetch } = getState().entities.bugs;
 
