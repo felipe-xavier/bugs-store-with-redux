@@ -5,15 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "Felipe de Almeida Xavier",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@types/jest": "^26.0.19",
+    "axios-mock-adapter": "^1.19.0",
     "babel-jest": "^26.6.3",
     "jest": "^26.6.3",
     "webpack": "4.41.6",
