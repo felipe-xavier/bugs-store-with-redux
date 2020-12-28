@@ -3,10 +3,8 @@ import axios from "axios";
 
 const api = ({ dispatch }) => next => async action => {
 	if (action.type !== actions.apiCallBegan.type) { 
-			return next(action);
+		return next(action);
 	}
-
-	console.log(action.payload);
 
 	const { url, method, data, onStart, onSuccess, onFail } = action.payload;
 
@@ -18,9 +16,9 @@ const api = ({ dispatch }) => next => async action => {
 		
 		const response = await axios.request({
 			baseURL: "http://localhost:9001/api",
-      url,
-      method,
-      data
+			url,
+			method,
+			data
 		});
 
 		dispatch(actions.apiCallSucceeded(response.data));
