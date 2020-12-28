@@ -4,12 +4,12 @@ import toast from './middlewares/toast';
 import api from "./middlewares/api";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
-export default function() {
+export default () => {
   return configureStore({ 
     reducer,
     middleware: [
       ...getDefaultMiddleware(),
-      logger({destination: "console"}),
+      // logger({destination: "console"}),
       toast,
       api
     ]
